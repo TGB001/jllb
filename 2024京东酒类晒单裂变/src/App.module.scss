@@ -1,0 +1,9 @@
+::-webkit-scrollbar {
+  display: none;
+  width: 0 !important;
+}
+
+@font-face {
+  font-family: 'MyCustomFont';  // 定义一个字体名称
+  src: url('./jdzh_regular.ttf') format('truetype');
+}

@@ -1,0 +1,790 @@
+{
+  "configs": [
+    {
+      "type": "text",
+      "name": "floorCode",
+      "label": "模版ID",
+      "description": "模版ID(为了方便模版复制和提高加载稳定性)",
+      "param": { "placeholder": "请输入模版ID(必填)" }
+    },
+    {
+      "type": "imguploader",
+      "name": "crossImg",
+      "label": "crossImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/192271/36/44695/1948/663e01dbF21570e06/8dc6f81140533e28.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "trumpetImg",
+      "label": "trumpetImg",
+      "param": {
+        "defaultValue": {
+          "value": "//img30.360buyimg.com/zx/jfs/t1/174573/24/45869/731/6642c537Fac7337be/6e985accf777daf9.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "rulePop",
+      "label": "rulePop",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/93811/19/41076/133606/663e0323F10ab85fd/9d21b7a6aa4a281f.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "ruleWord",
+      "label": "ruleWord",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/235543/33/17798/466246/664edaceF953fbb8d/2c7afb8d49bedfb0.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "guideImg",
+      "label": "guideImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/173980/30/46590/146453/664ae5e3F84f1285e/71497ff772801031.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "bgImg",
+      "label": "bgImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/163734/8/45790/9016/66508498F4b1f3f7b/ca4b63ef35fe7c2f.jpg",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "BdImg",
+      "label": "BdImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/159441/6/45944/52553/663d86efF76ba772f/a5cee0ef99a08863.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "BdGoImg",
+      "label": "BdGoImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/228548/10/16724/8158/664d8c2fF97969cfa/bd369953c41f5613.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "BdNoImg",
+      "label": "BdNoImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/87664/7/43586/7785/664d8c2eFe8be6d3a/6281c04de21832d4.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "phyPriceImg",
+      "label": "phyPriceImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/222370/38/40858/67043/663d881fF32ee268c/d8aba581cf9438bd.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "getImg",
+      "label": "getImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/238381/14/17121/20886/664d8ca9Fadf2ef05/ba693e96639b17ac.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "clickPutImg1",
+      "label": "clickPutImg1",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/207758/29/32208/18211/663efdf9F49e0adf1/99a8f6311329a7a5.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "shipImg1",
+      "label": "shipImg1",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/236171/9/16357/17915/663efdf4F3fe265b8/26b2dd7f308e083b.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "sharPriceImg",
+      "label": "sharPriceImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/220387/18/41958/49299/66471365F03e8e355/d353dd8a34362e0f.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "useImg",
+      "label": "useImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/238381/14/17121/20886/664d8ca9Fadf2ef05/ba693e96639b17ac.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "clickPutImg",
+      "label": "clickPutImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/207758/29/32208/18211/663efdf9F49e0adf1/99a8f6311329a7a5.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "shipImg",
+      "label": "shipImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/236171/9/16357/17915/663efdf4F3fe265b8/26b2dd7f308e083b.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "MyPriceWineGif",
+      "label": "MyPriceWineGif",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/246041/2/8029/177583/6641df9dFf2835468/a02ee91a8fe71017.gif",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "goOrderImg",
+      "label": "goOrderImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/109070/32/46400/5380/6641d360Fbf5444a4/eaec6386f0ebe260.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "alOrderImg",
+      "label": "alOrderImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/247237/35/8838/2939/663ed3e4Fda58a39d/06e42955925c34a6.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "shareBtnImg",
+      "label": "shareBtnImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/238632/11/8054/262923/6642f53cF048607e0/0fa6c05d228c12c1.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "dpsImg",
+      "label": "dpsImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/245052/13/8278/45351/663f214eF9f02f014/065d857715d8c124.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "orderBottomImg",
+      "label": "orderBottomImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/248345/39/8771/18487/663f0088Ff0ce4827/3cf1d049f523da16.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "newUserCoupon",
+      "label": "newUserCoupon",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/227862/17/18265/27038/6642c357Fa8044e3c/a2780e151935a04a.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "usedNewUserCoupon",
+      "label": "usedNewUserCoupon",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/172763/17/42194/25469/6642c34eF18d702a4/6b0ddc7fcec1b573.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "newUserCloseImg",
+      "label": "newUserCloseImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/135951/18/42815/1657/66431b8eF9d4107b8/da4aff62c17dec44.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "shopSkuImg",
+      "label": "shopSkuImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/150612/9/24644/51563/664edde9Fa197c662/48016efa14676c08.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "recentImg",
+      "label": "recentImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/227671/21/19089/8471/664ed4a6Fbc5739ba/198cb4d2d95858c7.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "shopBtnImg",
+      "label": "shopBtnImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/246390/36/8493/9341/663d8e6dF93473e51/1599a2fce39fd6e3.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "goShopBtnImg",
+      "label": "goShopBtnImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/129588/10/44035/10066/663d8e6dF68cc710a/7867143bbe0e05ad.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "wordImg",
+      "label": "wordImg",
+      "param": {
+        "defaultValue": {
+          "value": "//img30.360buyimg.com/zx/jfs/t1/196856/6/43810/11659/6641deedF651f97b7/4bcc60f681acb7da.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "shopBgImg",
+      "label": "shopBgImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/226983/8/16272/11907/663f2bcaFb2d13eed/37dca2d35f6dd6cb.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "commentCartBgImg",
+      "label": "commentCartBgImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/189851/12/44989/147930/663d8d13F795bc1e0/ada85428c31cb930.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "videoPlayImg",
+      "label": "videoPlayImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/182087/39/45955/1391/6641e6c7Fd99a43a2/dceec2ca694e9f76.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "shaiPriceImg",
+      "label": "shaiPriceImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/158994/28/46354/48605/66471366Feb9a5826/868acef81004bf8d.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "invitePriceImg",
+      "label": "invitePriceImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/185437/29/45310/56910/664d8d46F8e986a06/2f41a60856300cc3.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "priceBgImg",
+      "label": "priceBgImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/248919/25/10005/128386/66557d73F47c13960/7600de9f254a5dfd.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "orderBgImg",
+      "label": "orderBgImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/221894/2/40784/27376/664b109bF27a168aa/74c99f9f80da7cdc.jpg",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "orderImg",
+      "label": "orderImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/247344/37/7081/30557/66471c5eF394fe55d/666cf89aa37d4aaa.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "lampImg",
+      "label": "lampImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/247720/16/9756/4368/664d8f50F6e1fac9d/a420ce02bc559f7f.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "coverImg",
+      "label": "coverImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/242902/27/9313/72424/66472d13F914232b5/b8f3888ac4aaf71e.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "ruleImg",
+      "label": "ruleImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/236238/2/17393/15661/664ab888F7b795faf/f7f08b5d1cf25c34.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "qpsImg",
+      "label": "qpsImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/244757/13/8294/46587/664b1099F670ed516/04a94f5889877be8.jpg",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "orderBlackImg",
+      "label": "orderBlackImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/225904/37/17096/39284/664edb35F7b21c0ae/5cfee66690d484cf.jpg",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "skipImg",
+      "label": "skipImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/246739/29/9567/487134/664ac068Fd8f2bf7a/3e1b73df4bf4cd12.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "homePopupImg",
+      "label": "homePopupImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/228505/10/16586/208444/664adb7dF1d745522/3dde37903d02da2e.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "text",
+      "name": "countDownTime",
+      "label": "countDownTime",
+      "defaultValue": "3",
+      "param": { "placeholder": "请输入countDownTime(必填)" }
+    },
+    {
+      "type": "text",
+      "name": "mainBackgroundColor",
+      "label": "mainBackgroundColor",
+      "defaultValue": "#141425",
+      "param": { "placeholder": "请输入mainBackgroundColor(必填)" }
+    },
+    {
+      "type": "text",
+      "name": "placeHolderAdId",
+      "label": "placeHolderAdId",
+      "defaultValue": "07456625",
+      "param": { "placeholder": "请输入placeHolderAdId(必填)" }
+    },
+    {
+      "type": "text",
+      "name": "navListAdId",
+      "label": "navListAdId",
+      "defaultValue": "07441755",
+      "param": { "placeholder": "请输入navListAdId(必填)" }
+    },
+    {
+      "type": "text",
+      "name": "maoTaiAdId",
+      "label": "maoTaiAdId",
+      "defaultValue": "07456518",
+      "param": { "placeholder": "请输入maoTaiAdId(必填)" }
+    },
+    {
+      "type": "text",
+      "name": "newUserAdID",
+      "label": "newUserAdID",
+      "defaultValue": "07454115",
+      "param": { "placeholder": "请输入newUserAdID(必填)" }
+    },
+    {
+      "type": "text",
+      "name": "shareAdID",
+      "label": "shareAdID",
+      "defaultValue": "07464135",
+      "param": { "placeholder": "请输入shareAdID(必填)" }
+    },
+    {
+      "type": "text",
+      "name": "shaiAdID",
+      "label": "shaiAdID",
+      "defaultValue": "07464144",
+      "param": { "placeholder": "请输入shaiAdID(必填)" }
+    },
+    {
+      "type": "text",
+      "name": "inviteAdID",
+      "label": "inviteAdID",
+      "defaultValue": "07464148",
+      "param": { "placeholder": "请输入inviteAdID(必填)" }
+    },
+    {
+      "type": "imguploader",
+      "name": "shareImg",
+      "label": "shareImg",
+      "param": {
+        "defaultValue": {
+          "value": "https://m.360buyimg.com/babel/jfs/t1/151713/14/44134/23802/6644c434F5697efd0/e931a1d6112a8e8d.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "shareQrImg",
+      "label": "shareQrImg",
+      "param": {
+        "defaultValue": {
+          "value": "https://m.360buyimg.com/babel/jfs/t1/200435/28/44263/156970/664da689Fbfd68e95/3cf6c7e79e9a43cd.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "shareKeyImg",
+      "label": "shareKeyImg",
+      "param": {
+        "defaultValue": {
+          "value": "https://m.360buyimg.com/n1/s120x120_jfs/t2566/341/1119128176/23675/6356333b/568e3d86Naa36a750.jpg",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "text",
+      "name": "LaXingCouponEncryptAssignmentId",
+      "label": "LaXingCouponEncryptAssignmentId",
+      "defaultValue": "kWU3Ldr9Ssqjqqk9Rm9NQnMiLdz",
+      "param": { "placeholder": "请输入LaXingCouponEncryptAssignmentId(必填)" }
+    },
+    {
+      "type": "imguploader",
+      "name": "shareHasGotToday",
+      "label": "shareHasGotToday",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/231967/5/18846/50081/664df342Fb7bf0a55/0aa449e36a30e0a9.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "shaiDanHasGotToday",
+      "label": "shaiDanHasGotToday",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/217508/18/41946/49449/664df33eFc6dee8da/a5b9f0cce81e6436.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "noSkuImg",
+      "label": "noSkuImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/192265/13/46408/53536/664ece02F2b0402b7/91da63c0a8772a48.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "riskImg",
+      "label": "riskImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/205379/13/43424/29538/664c2e43Fbaf0b2ce/ffcec8e9182bce15.jpg",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "imguploader",
+      "name": "moreImg",
+      "label": "moreImg",
+      "param": {
+        "defaultValue": {
+          "value": "//m.360buyimg.com/babel/jfs/t1/235247/16/18581/3627/66544df9F7609a5c9/7e613699f81942cc.png",
+          "lable": "默认图片"
+        },
+        "uploadLabel": "上传图片",
+        "accept": "image/jpg,image/jpeg,image/bmp,image/png,image/webp,image/gif"
+      }
+    },
+    {
+      "type": "text",
+      "name": "priceBgImgHeight",
+      "label": "priceBgImgHeight",
+      "defaultValue": "1104",
+      "param": { "placeholder": "请输入priceBgImgHeight(必填)" }
+    }
+  ]
+}

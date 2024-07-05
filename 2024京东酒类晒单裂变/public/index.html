@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0,viewport-fit=cover" />
+  </head>
+  <body>
+    <!-- 不要删除这个div, class请勿修改-->
+    <div class="ipaas-floor-app"></div>
+  </body>
+  <script>
+    /** == SGM前端监控SDK异步创建 ==
+     * 1、一个.html只会创建一个sgm监控对象，多次创建时以最早生效的对象为准。
+     * 2、异步创建SDK方式，在SDK创建之前页面中的JS报错将监控不到（因此建议：在index.html中使用script标签，将SDK做为第一个资源引入）。
+     * 3、通天塔页面监控，请将此代码片段加入活动主页第一楼层中，并尽量确保整个活动页只加载一次。
+     * **/
+    (function(p){
+         try {
+            if (window.__sgm__ || document.getElementsByName('SGMH5').length) {
+                console.warn('sgm-web-sdk duplicate creation !!!')
+            } else {
+                const sc = document.createElement('script')
+                sc.async = true
+                sc.crossOrigin = 'anonymous'
+                sc.src = `https://sgm-static.jd.com/sgm-web-${p.version}.js`
+                sc.setAttribute('name', 'SGMH5')
+                sc.setAttribute('initDomain', 'https://lyra-m.jdcloud.com')
+                sc.setAttribute('sid', "a784b959758c40ea9606ee5adc673d14")
+                sc.setAttribute('pid',"OwKyLw@9j2NxmIwPt.5kTU7")
+                document.head.appendChild(sc)
+            }
+        } catch (e) {
+            console.warn('sgm-web-sdk creation failed !!!', e)
+        }
+    })({
+        version: '3.2.1',
+        sid: 'e9f55acc9567467186915d409f9a0ffa',
+        pid: 'OwKyLw@a/Icm22TW1BO7ynx'
+    })
+</script>
+</html>

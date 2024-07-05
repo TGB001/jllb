@@ -1,0 +1,59 @@
+{
+  "name": "00037459",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "ifloor-scripts start",
+    "build": "ifloor-scripts build",
+    "install-all": "sh ./install.sh",
+    "genConfigJson": "node ./generateConfigJsonTool.js"
+  },
+  "ihub": {
+    "ifloorId": "00037459"
+  },
+  "dependencies": {
+    "@jmfe/ifloor-scripts": "https://storage.360buyimg.com/jnpm-package/__jmfe/ifloor-scripts/-/__jmfe/ifloor-scripts-2.2.3-isv.tgz",
+    "lottie-react": "^2.4.0",
+    "react": "~16.10.1",
+    "react-dom": "~16.10.1",
+    "react-redux": "7.2.6",
+    "react-scripts": "^4.0.3",
+    "redux": "4.1.2",
+    "styled-components": "^5.2.3",
+    "swiper": "^9.4.1",
+    "crypto-js": "^4.2.0",
+    "axios": "^1.6.5",
+    "superagent": "^8.1.2"
+  },
+  "browserslist": {
+    "production": [
+      "> 1%",
+      "last 2 versions",
+      "not ie <= 8",
+      "Android >= 4.4",
+      "iOS >= 8"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "overrides": {
+    "html-webpack-plugin": "4.5.2",
+    "@jmfe/babel-preset-react-app": "https://storage.360buyimg.com/jnpm-package/__jmfe/babel-preset-react-app/-/__jmfe/babel-preset-react-app-1.0.3.tgz",
+    "@jmfe/html-webpack-ifloor-preview-plugin": "https://storage.360buyimg.com/jnpm-package/__jmfe/html-webpack-ifloor-preview-plugin/-/__jmfe/html-webpack-ifloor-preview-plugin-0.0.9-alpha.1.tgz",
+    "@jmfe/ifloor-sharedinternals": "https://storage.360buyimg.com/jnpm-package/__jmfe/ifloor-sharedinternals/-/__jmfe/ifloor-sharedinternals-0.0.5.tgz"
+  },
+  "resolutions": {
+    "html-webpack-plugin": "4.5.2",
+    "@jmfe/babel-preset-react-app": "https://storage.360buyimg.com/jnpm-package/__jmfe/babel-preset-react-app/-/__jmfe/babel-preset-react-app-1.0.3.tgz",
+    "@jmfe/html-webpack-ifloor-preview-plugin": "https://storage.360buyimg.com/jnpm-package/__jmfe/html-webpack-ifloor-preview-plugin/-/__jmfe/html-webpack-ifloor-preview-plugin-0.0.9-alpha.1.tgz",
+    "@jmfe/ifloor-sharedinternals": "https://storage.360buyimg.com/jnpm-package/__jmfe/ifloor-sharedinternals/-/__jmfe/ifloor-sharedinternals-0.0.5.tgz"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "babel-plugin-styled-components-px2vw": "^1.6.0",
+    "node-sass": "^8.0.0",
+    "postcss-px-to-viewport": "^1.1.1"
+  }
+}
