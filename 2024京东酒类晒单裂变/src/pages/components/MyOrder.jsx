@@ -12,6 +12,42 @@ const MyOrderItem = ({ isOrdered, itemData }) => {
     reportWithoutJump('qushaidan')
     window.location.href = ` openApp.jdMobile://virtual?params={"category":"jump","des":"commentCenter","jumpType":"1"}`;
   };
+
+  const {
+    userData: { current: userData },
+  } = useContext(UserContext);
+
+  // 去分享
+  const shareShaiDan = (guid, skuId) => {
+    console.log('lllll', userData);
+    const alertUrl =
+      'https://pro.m.jd.com/mall/active/2MqcfwsaGJdfo1NWYgj4qN2T1LLu/index.htmlvconsole=1?babelChannel=ttt1';
+    const shareUrl = `${alertUrl}&user_id=${userData.user_id}&guid=${guid}&skuId=${skuId}`;
+    console.log('点击分享按钮 shareUrl', shareUrl);
+    window.jmfe.callSharePane({
+      title: '分享晒单赢1499飞天茅台抢购资格，复制打开京东参与',
+      content: '分享晒单赢1499飞天茅台抢购资格，复制打开京东参与',
+      url: shareUrl,
+      img: payloadProps.shareImg,
+      channel: 'Wxfriends,Wxmoments,QRCode,CopyURL',
+      qrparam: {
+        qr_direct:
+          'http://m.360buyimg.com/babel/jfs/t1/239780/6/7362/157194/6650dd15F9efcfef6/c1a96e0cc6e039a8.png', //自定义二维码图片
+      },
+      keyparam: {
+        url: shareUrl,
+        keyEndTime: new Date().getTime() + Number(86400000),
+        keyChannel: 'Wxfriends,QQfriends,Wxmoments,QQzone,Sinaweibo',
+        sourceCode: 'babel',
+        keyImg:
+          'https://m.360buyimg.com/n1/s120x120_jfs/t2566/341/1119128176/23675/6356333b/568e3d86Naa36a750.jpg',
+        keyId: '11', //活动标识传参规则,详情查看京口令使用规范&调用方式
+        keyTitle: '分享晒单赢1499飞天茅台抢购资格，复制打开京东参与',
+        keyContent: '分享晒单赢1499飞天茅台抢购资格，复制打开京东参与',
+      },
+    });
+  }
+
   const payloadProps = useContext(MockDataContext);
   return (
     <div
@@ -72,7 +108,11 @@ const MyOrderItem = ({ isOrdered, itemData }) => {
               bottom: getRpx(20),
             }}
             src={payloadProps.alOrderImg}
-            alt="已晒单"
+            alt="去分享"
+            onClick={()=>{
+              console.log('去分享', itemData);
+              shareShaiDan(itemData.guid, itemData.skuId)
+            }}
           />
         ) : (
           <img
@@ -85,6 +125,22 @@ const MyOrderItem = ({ isOrdered, itemData }) => {
             onClick={changeOrder}
             src={payloadProps.goOrderImg}
             alt="去晒单"
+          />
+        )
+      }
+
+      {
+        itemData.status == 1  && (
+          <img
+            style={{
+              position: 'absolute',
+              width: getRpx(99),
+              height: getRpx(34),
+              top: getRpx(414),
+              left: getRpx(189)
+            }}
+            src="https://img10.360buyimg.com/zx/jfs/t1/68078/13/27012/4251/6699c11cF565a9017/fcc6734d8a156f72.png"
+            alt="气泡"
           />
         )
       }

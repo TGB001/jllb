@@ -8,7 +8,7 @@ import React, {
   useContext,
 } from 'react';
 
-import { getRpx, imgUri, getDisplayName } from '@/utils';
+import { getRpx, imgUri, getDisplayName, jumpOther, jumpUGC } from '@/utils';
 import 'swiper/swiper.min.css';
 import Product from './Product';
 import { MockDataContext } from '../Home';
@@ -264,6 +264,13 @@ export default ({ scrollBottom, setCurrentVideoInfo }) => {
                     position: 'relative',
                     width: getRpx(1109),
                     height: getRpx(839),
+                  }}
+                  onClick={()=>{
+                    if (item.link && item.extension && item.extension.skus && item.extension.skus[0]) {
+                      
+                      // jumpUGC(item.link + '|' + item.extension.skus[0], 'bebel')
+                      jumpOther(`https://capturehomeshare.m.jd.com/aha/ugcShare.html?contentId=${item.link}&channel=jingxuan&cmtType=4&skuId=${item.extension.skus[0]}&utm_source=iosapp&utm_medium=appshare&utm_campaign=t_335139774&utm_term=CopyURL&ad_od=share&gx=RnE1lmVePTTamtR2y_gPIJA`,'pingjiaxiangqingye')
+                    }
                   }}
                   key={item.id}
                 >

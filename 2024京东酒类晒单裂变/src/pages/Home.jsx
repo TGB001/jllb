@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback, useContext, createContext } from 'react';
 import { userLogin, getUserInfo } from '@/server/userManager';
-import { getShareInfo, updateShareInfo, doInteraction, getInteractive } from '@/server/dataManager';
+import { getShareInfo, updateShareInfo, getShareOrder } from '@/server/dataManager';
 import {
   getRpx,
   imgUri,
@@ -27,6 +27,10 @@ import GuideLayer from './components/GuideLayer';
 import VideoPlayComponent from './components/VideoPlayComponent';
 import MyOrder from './components/MyOrder';
 import ShowImgComponent from './components/ShowImgComponent';
+
+
+import Lottie from 'lottie-react';
+import benefit from './benefit.json';
 
 const { toLogin, isJDAppLogin, requestIsvToken, isApp } = window.jmfe;
 
@@ -145,7 +149,7 @@ export const CloseIcon = (props) => {
 };
 
 // 我的奖品 三张优惠券
-const MyPrize = ({ isStartAnimation }) => {
+const MyPrize = ({ isStartAnimation, setIsRuleFlag, setShareZhuTan, setShareKeTan, setShaiDan }) => {
   const payloadProps = useContext(MockDataContext);
   const maoTaiAdId = payloadProps.maoTaiAdId;
   const [maoTaiData, setMaoTaiData] = useState({});
@@ -160,8 +164,13 @@ const MyPrize = ({ isStartAnimation }) => {
           setMaoTaiDataTextGif(list[1]);
         }
       },
-      () => {},
+      () => { },
     );
+  }, []);
+  const lottieRef1 = useRef(null);
+  useEffect(() => {
+    if (!lottieRef1.current) return;
+    lottieRef1.current.play();
   }, []);
   return (
     <div
@@ -185,20 +194,34 @@ const MyPrize = ({ isStartAnimation }) => {
           src={payloadProps.priceBgImg}
           alt="我的奖品"
         />
+
+        {/* lottie */}
+        <Lottie
+          lottieRef={lottieRef1}
+          animationData={benefit}
+          style={{
+            width: getRpx(520),
+            height: getRpx(82),
+            position: 'absolute',
+            top: getRpx(12),
+            left: getRpx(506),
+          }}
+        />
+
         <PrizeUserInfo />
         {/* 分享领券 */}
-        <PrizeOne isStartAnimation={isStartAnimation} />
+        <PrizeOne isStartAnimation={isStartAnimation} setShareZhuTan={setShareZhuTan} setShareKeTan={setShareKeTan} />
         {/* 晒单领券 */}
-        <PrizeTwo isStartAnimation={isStartAnimation} />
+        <PrizeTwo isStartAnimation={isStartAnimation} setShaiDan={setShaiDan} />
         {/* 分享活动领券 */}
-        <PrizeThree isStartAnimation={isStartAnimation} />
+        {/* <PrizeThree isStartAnimation={isStartAnimation} /> */}
         {/* 茅台活动 */}
         {maoTaiData?.pictureUrl && (
           <div
             style={{
               position: 'absolute',
-              left: getRpx(120),
-              top: getRpx(630),
+              left: getRpx(177),
+              top: getRpx(514),
               width: getRpx(maoTaiData?.picWidth),
               height: getRpx(maoTaiData?.picHeight),
             }}
@@ -233,6 +256,20 @@ const MyPrize = ({ isStartAnimation }) => {
             )}
           </div>
         )}
+
+        <div
+          style={{
+            width: getRpx(165),
+            height: getRpx(54),
+            position: 'absolute',
+            top: getRpx(624),
+            left: getRpx(912),
+            zIndex: 4
+          }}
+          onClick={() => {
+            setIsRuleFlag(true)
+          }}
+        ></div>
       </div>
     </div>
   );
@@ -266,7 +303,7 @@ const PlaceHolderComponent = () => {
           }
         }
       },
-      () => {},
+      () => { },
     );
   }, []);
   return (
@@ -311,6 +348,14 @@ const HomeMain = (props) => {
   const [isStartAnimation, setIsStartAnimation] = useState(false);
   // 是否显示底部新人优惠券
   const [isShowBottomCoupon, setIsShowBottomCoupon] = useState(true);
+  // 是否显示茅台规则
+  const [isRuleFlag, setIsRuleFlag] = useState(false)
+
+  // 是否显示主态分享成功弹框
+  const [shareZhuTan, setShareZhuTan] = useState(false)
+  const [shareKeTan, setShareKeTan] = useState(false)
+  const [shaiDan, setShaiDan] = useState(false)
+  const [alText, setAltext] = useState('')
 
   useEffect(() => {
     const isShowHomePopupKey = 'isShowHomePopupKey';
@@ -337,7 +382,10 @@ const HomeMain = (props) => {
   const wrapperRef = useRef(null);
   const {
     userData: { current: userData },
+    shaiDanCount,
+    setShaiDanCount,
   } = useContext(UserContext);
+
 
   const handleHomePopupClose = useCallback(() => {
     setIsShowHomePopup(false);
@@ -348,10 +396,113 @@ const HomeMain = (props) => {
     setIsStartAnimation(true);
   });
 
+  const showText = (text, time = 800) => {
+    setAltext(text)
+    setTimeout(() => {
+      setAltext('')
+    }, time)
+  }
+
   const handleGuideClose = useCallback(() => {
     setIsShowGuide(false);
     setIsStartAnimation(true);
   });
+
+  // 领取分享券
+  const handleGetCouponBtnClick = useCallback(async (type) => {
+    let shareCoupon = null
+    let id = type == 0 ? payloadProps.shareAdID : payloadProps.shareAdID1
+    window.babel.babelAdvertInfoNew({ body: id }).then(
+      async (res) => {
+        console.log('res', res);
+        if (res.code === '0') {
+          const { list = [] } = res.data[`payload_${id}`];
+          console.log('shareCoupon res.data', res.data);
+          shareCoupon = list[0]?.extension;
+          console.log('shareCoupon', shareCoupon);
+          const res1 = await getCoupon(shareCoupon);
+          if (res1 === 'success') {
+            setShareZhuTan(false)
+            setShareKeTan(false)
+            showText('领取成功正在前往使用...', 2000);
+            setTimeout(() => {
+              jumpOther(`https://so.m.jd.com/list/couponSearch.action?couponbatch=${shareCoupon.batchId}`, 'youhuijuan')
+            }, 2000);
+
+          } else if (res1 === 'soldout') {
+            showText('优惠券已领完');
+          } else {
+            showText(res1);
+          }
+        }
+      },
+      () => { },
+    );
+
+  }, []);
+
+  // 领取晒单券
+  const handleGetCouponBtnClick1 = useCallback(async () => {
+    let shareCoupon = null
+    window.babel.babelAdvertInfoNew({ body: payloadProps.shaiAdID }).then(
+      async (res) => {
+        console.log('res', res);
+        if (res.code === '0') {
+          const { list = [] } = res.data[`payload_${payloadProps.shaiAdID}`];
+          console.log('list', list);
+          shareCoupon = shareCoupon = list[0]?.extension;
+          console.log('shareCoupon', shareCoupon);
+          const res2 = await getCoupon(shareCoupon);
+          if (res2 === 'success') {
+            setShaiDan(false)
+            showText('领取成功正在前往使用...', 2000);
+            setTimeout(() => {
+              jumpOther(`https://so.m.jd.com/list/couponSearch.action?couponbatch=${shareCoupon.batchId}`, 'youhuijuan')
+            }, 2000);
+
+          } else if (res2 === 'soldout') {
+            showText('优惠券已领完');
+          } else {
+            showText(res2);
+          }
+        }
+      },
+      () => { },
+    );
+
+  }, []);
+
+  // 领取分享晒单成功券
+  const handleGetCouponBtnClick2 = useCallback(async () => {
+    let shareCoupon = null
+    window.babel.babelAdvertInfoNew({ body: payloadProps.shaiDanID }).then(
+      async (res) => {
+        console.log('res', res);
+        if (res.code === '0') {
+          const { list = [] } = res.data[`payload_${payloadProps.shaiDanID}`];
+          console.log('list', list);
+          shareCoupon = shareCoupon = list[0]?.extension;
+          console.log('shareCoupon', shareCoupon);
+          const res3 = await getCoupon(shareCoupon);
+          if (res3 === 'success') {
+            setShaiDanCount(false)
+            showText('领取成功正在前往使用...', 2000);
+            setTimeout(() => {
+              jumpOther(`https://so.m.jd.com/list/couponSearch.action?couponbatch=${shareCoupon.batchId}`, 'youhuijuan')
+            }, 2000);
+
+          } else if (res3 === 'soldout') {
+            showText('优惠券已领完');
+          } else {
+            showText(res3);
+          }
+        }
+      },
+      () => { },
+    );
+
+  }, []);
+
 
   const onBottom = debounce(() => {
     setScrollBottom({});
@@ -384,10 +535,39 @@ const HomeMain = (props) => {
         {isShowHomePopup && (
           <HomePopup isShowPopup={isShowHomePopup} handleHomePopupClose={handleHomePopupClose} />
         )}
+        {/* 茅台规则弹框 */}
+        {
+          isRuleFlag && <div
+            style={{
+              width: '100%',
+              height: '100%',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              zIndex: 11
+            }}
+          >
+            <img style={{ width: '100%', height: '100%' }} src="http://m.360buyimg.com/babel/jfs/t1/227604/35/24533/145373/66987f01Fde7dd1e0/f74c1befcd3162b0.png" alt="" />
+
+            <div
+              style={{
+                width: getRpx(450),
+                height: getRpx(120),
+                position: 'absolute',
+                top: getRpx(1461),
+                left: getRpx(330),
+              }}
+              onClick={() => {
+                setIsRuleFlag(false)
+              }}
+            ></div>
+          </div>
+        }
+
         {/* 规则弹窗 */}
         <RulePopup />
         {/* 我的奖品 */}
-        <MyPrize isStartAnimation={isStartAnimation} />
+        <MyPrize isStartAnimation={isStartAnimation} setIsRuleFlag={setIsRuleFlag} setShareZhuTan={setShareZhuTan} setShareKeTan={setShareKeTan} setShaiDan={setShaiDan} />
         {/* 我的订单 */}
         <MyOrder />
         {/* 占位广告 */}
@@ -400,6 +580,251 @@ const HomeMain = (props) => {
         {isShowBottomCoupon && <BottomCoupon setIsShowBottomCoupon={setIsShowBottomCoupon} />}
         {/* 引导层 */}
         <GuideLayer isShowGuide={isShowGuide} handleGuideClose={handleGuideClose} />
+
+        {/* 主态邀请成功弹框 */}
+        {
+          getUserType().userType === 'master' && shareZhuTan && <div
+            // <div
+            style={{
+              width: '100%',
+              height: '100%',
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              zIndex: 11
+            }}
+          >
+            <img
+              style={{
+                position: 'absolute',
+                width: '100%',
+              }}
+              src='http://m.360buyimg.com/babel/jfs/t1/205642/39/30075/112016/66987ff7Fc3182acf/91b4f1acc83a4b00.png'
+              alt="sharPriceImg"
+            />
+
+            {/* 立即领取 */}
+            <div
+              style={{
+                width: getRpx(468),
+                height: getRpx(138),
+                position: 'absolute',
+                top: getRpx(1311),
+                left: getRpx(330),
+              }}
+              onClick={() => {
+                handleGetCouponBtnClick(0)
+              }}
+            >
+
+            </div>
+
+            {/* 关闭按钮 */}
+            <div
+              style={{
+                width: getRpx(112),
+                height: getRpx(112),
+                position: 'absolute',
+                top: getRpx(1619),
+                left: getRpx(504),
+              }}
+              onClick={() => {
+                setShareZhuTan(false)
+              }}
+            ></div>
+          </div>
+        }
+
+        {/* 客态邀请成功弹框 */}
+        {
+          getUserType().userType === 'guest' && shareKeTan && <div
+            // <div
+            style={{
+              width: '100%',
+              height: '100%',
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              zIndex: 11
+            }}
+          >
+            <img
+              style={{
+                position: 'absolute',
+                width: '100%',
+              }}
+              src='http://m.360buyimg.com/babel/jfs/t1/244398/9/15454/114613/6698810fF9f67949d/98748a46846115bc.png'
+              alt="sharPriceImg"
+            />
+
+            {/* 立即领取 */}
+            <div
+              style={{
+                width: getRpx(468),
+                height: getRpx(138),
+                position: 'absolute',
+                top: getRpx(1311),
+                left: getRpx(330),
+              }}
+              onClick={() => {
+                handleGetCouponBtnClick(1)
+              }}
+            >
+
+            </div>
+
+            {/* 关闭按钮 */}
+            <div
+              style={{
+                width: getRpx(112),
+                height: getRpx(112),
+                position: 'absolute',
+                top: getRpx(1619),
+                left: getRpx(504),
+              }}
+              onClick={() => {
+                setShareKeTan(false)
+              }}
+            ></div>
+          </div>
+        }
+
+        {/* 晒单成功弹框显示 */}
+        {
+          shaiDan && <div
+            // <div
+            style={{
+              width: '100%',
+              height: '100%',
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              zIndex: 11
+            }}
+          >
+            <img
+              style={{
+                position: 'absolute',
+                width: '100%',
+              }}
+              src='http://m.360buyimg.com/babel/jfs/t1/6812/37/31636/113530/6698802cFbb3bc3bf/6027d5df69041431.png'
+              alt="shaiDanTanImg"
+            />
+
+            {/* 立即领取 */}
+            <div
+              style={{
+                width: getRpx(468),
+                height: getRpx(138),
+                position: 'absolute',
+                top: getRpx(1311),
+                left: getRpx(330),
+              }}
+              onClick={() => {
+                handleGetCouponBtnClick1()
+              }}
+            >
+
+            </div>
+
+            {/* 关闭按钮 */}
+            <div
+              style={{
+                width: getRpx(112),
+                height: getRpx(112),
+                position: 'absolute',
+                top: getRpx(1619),
+                left: getRpx(504),
+              }}
+              onClick={() => {
+                setShaiDan(false)
+              }}
+            ></div>
+          </div>
+        }
+
+        {/* 分享晒单成功弹框 */}
+        {
+          shaiDanCount && <div
+            // <div
+            style={{
+              width: '100%',
+              height: '100%',
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              zIndex: 11
+            }}
+          >
+            <img
+              style={{
+                position: 'absolute',
+                width: '100%',
+              }}
+              src='http://m.360buyimg.com/babel/jfs/t1/16543/26/22486/109571/669e0dc5F29e334ee/e999f516e81bbe2a.png'
+              alt="shaiDanTanImg"
+            />
+
+            {/* 立即领取 */}
+            <div
+              style={{
+                width: getRpx(468),
+                height: getRpx(138),
+                position: 'absolute',
+                top: getRpx(1311),
+                left: getRpx(330),
+              }}
+              onClick={() => {
+                handleGetCouponBtnClick2()
+              }}
+            >
+
+            </div>
+
+            {/* 关闭按钮 */}
+            <div
+              style={{
+                width: getRpx(112),
+                height: getRpx(112),
+                position: 'absolute',
+                top: getRpx(1619),
+                left: getRpx(504),
+              }}
+              onClick={() => {
+                setShaiDanCount(false)
+              }}
+            ></div>
+          </div>
+        }
+
+        {
+          alText && <div
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              width: '100vw',
+              height: '100vh',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#ffffff',
+              zIndex: 99999
+            }}>
+            <span
+              style={{
+                background: 'black',
+                fontSize: getRpx(71),
+                width: getRpx(735),
+                height: getRpx(159),
+                opacity: .6,
+                textAlign: 'center',
+                borderRadius: getRpx(30),
+                lineHeight: getRpx(6.5),
+              }}>{alText}</span>
+          </div>
+        }
+
       </MockDataContext.Provider>
     </div>
   );
@@ -408,7 +833,7 @@ const HomeMain = (props) => {
 export const HomeWrapper = (props) => {
   const [isLogin, setIsLogin] = useState(false);
   const [isOutApp, setIsOutApp] = useState(false);
-  const { setUserData, setUserShareData, setAllCompletionCnt, userShareData } =
+  const { setUserData, setUserShareData, setAllCompletionCnt, userShareData, setShaiDanCount } =
     useContext(UserContext);
   const [isRisk, setIsRisk] = useState(false);
 
@@ -425,240 +850,24 @@ export const HomeWrapper = (props) => {
         setUserShareData(userShareInfo);
         console.log('setUserShareData', userShareData.current);
 
-        doInteraction(userData.pin).then(
-          (res) => {
-            console.log('doInteraction', res.data);
-          },
-          () => {},
-        );
-
-        // 主态 客态 都需要做
-        getInteractive(userData.pin).then(
-          async (res) => {
-            console.log('getInteractive', res.data);
-            const { assignmentList = [] } = res.data;
-
-            // 找到 新人助力任务
-            const laXingCouponAssignment = assignmentList.find(
-              (item) => item.encryptAssignmentId === payloadProps.LaXingCouponEncryptAssignmentId,
-            );
-            console.log('laXingCouponAssignment', laXingCouponAssignment);
-            if (laXingCouponAssignment) {
-              let laXingOrder = laXingCouponAssignment.ext.order;
-              const groupId = laXingOrder?.groupId?.split(',')?.[0];
-              const orderUrl = laXingOrder?.orderUrl;
-              // 客态判断
-              if (
-                getUserType().userType === 'guest' &&
-                getUserType().master_user_id != userData.user_id
-              ) {
-                // 判断是否是新人
-                if (groupId && !getUserType().isWineNewUser) {
-                  try {
-                    const res = await window.babel.babelProductInfoNew({ body: groupId });
-                    if (res.code === '0') {
-                      const { list = [] } = res.data[`payload_${groupId}`];
-                      console.log('判断是否是新人 groupId list', list, res);
-                      if (list.length != 0) {
-                        // 跳转到带ttt1是新人的活动链接
-                        window.location.href = `${orderUrl}&user_id=${
-                          getUserType().master_user_id
-                        }`;
-                      }
-                    }
-                  } catch (e) {
-                    // console.log(e)
-                  }
-                }
-                // 获取客态的主态分享信息
-                getShareInfo(getUserType().master_user_id).then(
-                  (master_data_res) => {
-                    console.log('判断是否是新人 getUserInfo master_data_res', master_data_res);
-                    const master_data = master_data_res.data;
-                    const first_click = userData.first_click;
-                    console.log(
-                      '判断是否是新人 getUserInfo master_data, userData, first_click',
-                      master_data,
-                      userData,
-                      first_click,
-                    );
-                    if (
-                      first_click &&
-                      first_click != userData.user_id &&
-                      first_click === getUserType().master_user_id
-                    ) {
-                      // 客态进入主态分享的页面且是第一次点击带分享的链接 更新主态分享信息
-                      console.log(
-                        '客态进入主态分享页面 updateMasterShareInfo',
-                        userData,
-                        getUserType().master_user_id,
-                      );
-
-                      const master_guest_users = master_data?.guest_users;
-                      if (master_guest_users?.length > 0) {
-                        const find_guest_user = master_guest_users.find((item) => {
-                          return item.guest_user_id === userData.user_id;
-                        });
-                        if (find_guest_user) {
-                          // 主态有之前的客态记录 直接返回 不更新 避免重复更新
-                          console.log(
-                            '客态进入主态分享页面 主态有之前的客态记录 find_guest_user',
-                            find_guest_user,
-                          );
-                          return;
-                        }
-                      }
-                      // 客态进入主态分享页面且是第一次点击带分享的链接 更新主态分享信息
-                      updateShareInfo(userData.user_id, {
-                        master_user_id: getUserType().master_user_id,
-                        guest_users: [
-                          {
-                            guest_user_id: userData.user_id,
-                            pin: userData.pin,
-                            new_coupon_status: getUserType().isWineNewUser ? 'to_get' : 'no',
-                          },
-                        ],
-                        share_count: master_data.share_count + 1,
-                      }).then(
-                        (res) => {
-                          console.log('客态进入主态分享页面 updateMasterShareInfo', res.data);
-                        },
-                        () => {},
-                      );
-                    }
-                  },
-                  () => {},
-                );
-              }
-
-              // // 最后分享时间不在当天清空拉新状态
-              const last_share_time = userShareData.current.last_share_time;
-              if (last_share_time) {
-                const addDate = new Date(Number(last_share_time));
-                const addYear = addDate.getFullYear();
-                const addMonth = addDate.getMonth() + 1;
-                const addDay = addDate.getDate();
-                const nowDate = new Date();
-                const year = nowDate.getFullYear();
-                const month = nowDate.getMonth() + 1;
-                const day = nowDate.getDate();
-                if (addYear != year || addMonth != month || addDay != day) {
-                  updateShareInfo(userData.user_id, {
-                    master_user_id: userData.user_id,
-                    new_coupon_sum_count: 0,
-                    use_coupon_count: 0,
-                  }).then(
-                    (res) => {
-                      setUserShareData(res.data);
-                      setAllCompletionCnt(0);
-                      console.log(
-                        '最后分享时间不在当天清空拉新状态 updateShareInfo response, userShareData',
-                        res,
-                        userShareData.current,
-                      );
-                    },
-                    () => {},
-                  );
-                }
-              }
-
-              // 获取当前用户的拉新人数
-              const guest_users = userShareData.current.guest_users;
-              const getInterActivePromiseList = [];
-              const gotInterActiveUser_ids = [];
-              for (let i = 0; i < guest_users.length; i++) {
-                // 客态新人助力状态为to_get
-                if (guest_users[i].new_coupon_status == 'to_get') {
-                  // // 客态的分享时间不在当天 跳过 不计入主态
-                  const user_share_time = guest_users[i].share_time;
-                  const addDate = new Date(Number(user_share_time));
-                  const addYear = addDate.getFullYear();
-                  const addMonth = addDate.getMonth() + 1;
-                  const addDay = addDate.getDate();
-                  const nowDate = new Date();
-                  const year = nowDate.getFullYear();
-                  const month = nowDate.getMonth() + 1;
-                  const day = nowDate.getDate();
-                  if (addYear == year || addMonth == month || addDay == day) {
-                    console.log(
-                      '获取当前用户的拉新人数 addToPromiseList getInteractive',
-                      guest_users[i],
-                    );
-                    getInterActivePromiseList.push(getInteractive(guest_users[i].pin));
-                    gotInterActiveUser_ids.push(guest_users[i].guest_user_id);
-                  }
-                }
-              }
-
-              Promise.all(getInterActivePromiseList).then(
-                (guest_interactive_res) => {
-                  // 计算拉新人数
-                  let allCompletionCnt = 0;
-                  guest_interactive_res.forEach((item) => {
-                    const { assignmentList = [] } = item.data;
-
-                    //找到 新人助力任务
-                    const laXingCouponAssignment = assignmentList.find((item) => {
-                      console.log(
-                        'item.encryptAssignmentId LaXingCouponEncryptAssignmentId',
-                        item.encryptAssignmentId,
-                        payloadProps.LaXingCouponEncryptAssignmentId,
-                      );
-                      return (
-                        item.encryptAssignmentId === payloadProps.LaXingCouponEncryptAssignmentId
-                      );
-                    });
-                    console.log('laXingCouponAssignment', laXingCouponAssignment);
-                    // 助力完成数大于0 算助力一次
-                    if (
-                      laXingCouponAssignment?.completionCnt &&
-                      laXingCouponAssignment?.completionCnt > 0
-                    ) {
-                      allCompletionCnt += 1;
-                    }
-                  });
-
-                  // 更新主态或自己的分享信息
-                  console.log(
-                    '更新主态或自己的分享信息 updateShareInfo userShareData, allCompletionCnt',
-                    userShareData.current,
-                    allCompletionCnt,
-                  );
-                  updateShareInfo(userData.user_id, {
-                    master_user_id: userData.user_id,
-                    new_coupon_sum_count:
-                      userShareData.current.new_coupon_sum_count + allCompletionCnt,
-                    guest_users: guest_users.map((guest_user) => {
-                      if (gotInterActiveUser_ids.includes(guest_user.guest_user_id)) {
-                        // 已助力过的客态 状态改为 success
-                        return {
-                          ...guest_user,
-                          new_coupon_status: 'success',
-                        };
-                      }
-                      return guest_user;
-                    }),
-                  }).then(
-                    (res) => {
-                      console.log(
-                        '更新主态或自己的分享信息 updateShareInfo response, userShareData, allCompletionCnt',
-                        res,
-                        userShareData.current,
-                        allCompletionCnt,
-                      );
-                      setUserShareData(res.data);
-                      setAllCompletionCnt(allCompletionCnt);
-                    },
-                    () => {},
-                  );
-                  // 更新拉新人数
-                },
-                () => {},
-              );
-            }
-          },
-          () => {},
-        );
+        // 客态判断
+        console.log('客态身份验证1', getUserType().userType);
+        console.log('客态身份验证2', getUserType().master_user_id);
+        console.log('客态身份验证2', userData.user_id);
+        if (getUserType().userType === 'guest') {
+          console.log('是客态没问题');
+          // 客态进入主态分享页面且是第一次点击带分享的链接 更新主态分享信息
+          updateShareInfo(userData.user_id, {
+            master_user_id: getUserType().master_user_id,
+            guest_user_id: userData.user_id,
+            share_active_status: "get"
+          }).then(
+            (res) => {
+              console.log('客态进入主态分享页面 updateMasterShareInfo', res.data);
+            },
+            (err) => { console.log('errrrrrr', err); },
+          );
+        }
         console.log('setIsLogin userShareData', userShareData.current);
         setIsLogin(true);
       },
@@ -702,6 +911,18 @@ export const HomeWrapper = (props) => {
                       setUserData(res);
                       getUserShareInfo(res);
                       // 获取所有商品组信息
+
+                      // 查看是否分享成功
+                      getShareOrder(res.user_id).then((res) => {
+                        console.log('查询晒单分享券', res);
+                        if (res.share_order_coupon.length > 0) {
+                          console.log('查询晒单分享券状态1');
+                          setShaiDanCount(true)
+                        } else {
+                          console.log('查询晒单分享券状态2');
+                          setShaiDanCount(false)
+                        }
+                      })
                     },
                     (res) => {
                       console.log('userLogin error setIsRisk', res);
@@ -710,14 +931,14 @@ export const HomeWrapper = (props) => {
                   );
                 }
               },
-              () => {},
+              () => { },
             );
           } else if (data === '0') {
             // 登录失败则跳转京东登录页面
             toLogin();
           }
         },
-        () => {},
+        () => { },
       );
     } else if (process.env.NODE_ENV === 'development') {
       console.log('本地测试或其他端测试 userLogin');
@@ -734,6 +955,14 @@ export const HomeWrapper = (props) => {
           }
           setUserData(res);
           getUserShareInfo(res);
+          getShareOrder(res.user_id).then((res) => {
+            console.log('查询晒单分享券', res);
+            if (res.share_order_coupon.length > 0) {
+              setShaiDanCount(true)
+            } else {
+              setShaiDanCount(false)
+            }
+          })
         },
         () => {
           setIsRisk(true);

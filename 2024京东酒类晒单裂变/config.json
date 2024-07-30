@@ -1,3 +1,4 @@
+      
 {
   "configs": [
     {
@@ -785,6 +786,15 @@
       "label": "priceBgImgHeight",
       "defaultValue": "1104",
       "param": { "placeholder": "请输入priceBgImgHeight(必填)" }
+    },
+    {
+      "type": "text",
+      "name": "分享晒单优惠券广告组ID",
+      "label": "shaiDanID",
+      "defaultValue": "07533580",
+      "param": { "placeholder": "请输入分享晒单优惠券广告组ID(必填)" }
     }
   ]
 }
+
+    

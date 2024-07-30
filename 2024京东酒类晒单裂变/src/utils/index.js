@@ -189,6 +189,32 @@ export const jumpAdv = (url, eventId, { adId, adGroupId }, env = getBabelEnv()) 
   );
 };
 
+
+export const jumpUGC = (id, eventId)=> {
+  const contentId = id.split('|')[0];
+  const skuId = id.split('|')[1];
+  if (process.env.NODE_ENV === 'development') {
+    window.location.href = `https://capturehomeshare.m.jd.com/aha/ugcShare.html?contentId=${contentId}&skuId=${skuId}&channel=babel&cmtType=4`;
+  } else {
+    this.reportClick({
+      eventId,
+      eventParam: {
+        aid: window.babelShareData.activityId,
+        fno: $(`.module_${moduleId}`)[0].dataset.floornum,
+        mid: moduleId,
+        pageID: window.babelShareData.pageId
+      }
+    }).then(() => {
+      if (this.isJDApp()) {
+        const params = `{"category":"jump","des":"shareOrderUgcContent","skuId":"${skuId}","contentId":"${contentId}","channel":"jingxuan","cmtType":"4","sourceType":"JSHOP_SOURCE_TYPE","sourceValue":"JSHOP_SOURCE_VALUE","M_sourceFrom":"mxz","msf_type":"auto"}`;
+        window.location.href = `openapp.jdmobile://virtual?params=${encodeURIComponent(params)}`;
+      } else {
+        window.location.href = `https://capturehomeshare.m.jd.com/aha/ugcShare.html?contentId=${contentId}&skuId=${skuId}&channel=babel&cmtType=4`;
+      }
+    });
+  }
+}
+
 Date.prototype.format = function () {
   var s = '';
   var mouth = this.getMonth() + 1 >= 10 ? this.getMonth() + 1 : '0' + (this.getMonth() + 1);

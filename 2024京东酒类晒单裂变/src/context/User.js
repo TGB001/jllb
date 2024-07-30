@@ -3,6 +3,7 @@ export const UserContext = React.createContext({});
 
 export default function UserProvider({ children }) {
   const [allCompletionCnt, setAllCompletionCnt] = useState(0);
+  const [shaiDanCount, setShaiDanCount] = useState(false)
   const initData = {};
   const userData = useRef(initData);
   const userShareData = useRef({});
@@ -11,6 +12,8 @@ export default function UserProvider({ children }) {
       value={{
         allCompletionCnt,
         setAllCompletionCnt,
+        shaiDanCount,
+        setShaiDanCount,
         userData: userData,
         userShareData: userShareData,
         setUserData: (newData = {}) => {

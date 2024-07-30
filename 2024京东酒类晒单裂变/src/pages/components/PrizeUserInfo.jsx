@@ -55,7 +55,7 @@ const PrizeUserInfo = () => {
           whiteSpace: 'nowrap',
         }}
       >
-        {userData.user_name}
+        {(userData.user_name).slice(0, 8)}
       </div>
     </div>
   );

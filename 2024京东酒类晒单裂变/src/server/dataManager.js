@@ -35,7 +35,8 @@ export const comments = (comments_type, isvPin, params) => {
 
 export const getShareInfo = (master_user_id) => {
   return new Promise((resolve, reject) => {
-    axios.get(`${host}/jingdong/interactive/share/${master_user_id}`, {}, {}).then(
+    // axios.get(`${host}/jingdong/interactive/share/${master_user_id}`, {}, {}).then(
+    axios.get(`${host}/jingdong/interactive/coupon/${master_user_id}/share_active`, {}, {}).then(
       (res) => {
         resolve(res.data);
       },
@@ -61,7 +62,7 @@ export const getShareInfo = (master_user_id) => {
 export const updateShareInfo = (guest_user_id, params) => {
   return new Promise((resolve, reject) => {
     axios
-      .post(`${host}/jingdong/interactive/share/${guest_user_id}`, params, {
+      .post(`${host}/jingdong/interactive/active/${guest_user_id}`, params, {
         headers: {
           AssessKey: encrypt(`${guest_user_id}.user`),
         },
@@ -160,3 +161,18 @@ export const getInteractive = (
       );
   });
 };
+
+
+// 查询晒单分享成功
+export const getShareOrder = (userId) => {
+  return new Promise((resolve, reject) => {
+      axios.get(`${host}/jingdong/interactive/coupon/${userId}/share_order`, {}, {
+
+      })
+      .then((res) => {
+          resolve(res.data.data)
+      }, (err) => {
+          reject(err)
+      })
+  })
+}

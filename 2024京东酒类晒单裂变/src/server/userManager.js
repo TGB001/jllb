@@ -4,7 +4,7 @@ import { encrypt } from '@/utils/des';
 import { host, tokenPrefix } from './host';
 export const userLogin = (
   source = '01',
-  token = 'AAFmWSeHADDKqYhjzb9nxKvmWMcmPEbXFy45TEEqr1w5dy22vZdOqSJVSl4mySvr_mnAdrHUDiA',
+  token = 'AAFmngq6ADCNGhBPAcAqafi2q5vCQ3PCNrvsjHD73EXBjOdI1ots2kudt_OCSdfRb0-TaeTlLCo',
   params = {},
 ) => {
   return new Promise((resolve, reject) => {

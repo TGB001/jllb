@@ -175,7 +175,8 @@ export default (props) => {
               width: '100%',
               height: '100%',
             }}
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation()
               window.jmfe?.isApp("jd") && window.jmfe.toMyCart()
             }}
             src={payloadProps.goShopBtnImg}
@@ -187,7 +188,9 @@ export default (props) => {
               width: '100%',
               height: '100%',
             }}
-            onClick={() => {
+            onClick={(e) => {
+              console.log(e.defaultPrevented);
+              e.stopPropagation()
               addCart([productInfo.skuId]).then(
                 () => {
                   showToast('加入购物车成功！');

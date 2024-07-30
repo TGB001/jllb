@@ -3,13 +3,13 @@ import { getRpx, reportWithoutJump, jumpOther } from '@/utils';
 import { MockDataContext, getCouponStatus, HOUR_24_MS, getCoupon, getUserType } from '../Home';
 import { ToastContext, UserContext } from '../../context/context';
 import styles from '../Home.module.css';
-import { updateShareInfo } from '@/server/dataManager';
 
-const PrizeOne = ({ isStartAnimation }) => {
-  const [hasGot, setHasGot] = useState(true);
+const PrizeOne = ({ isStartAnimation, setShareZhuTan, setShareKeTan }) => {
+  const [hasGot, setHasGot] = useState(false);  // 有没有券
   const payloadProps = useContext(MockDataContext);
   const { showToast } = useContext(ToastContext);
-  const [hasGotToday, setHasGotToday] = useState(false);
+  // const [hasGotToday, setHasGotToday] = useState(false);
+  const [already, setAlready] = useState(false) // 是否已领取
   const {
     userData: { current: userData },
     userShareData,
@@ -19,35 +19,6 @@ const PrizeOne = ({ isStartAnimation }) => {
   const shareAdID = payloadProps.shareAdID;
   const shareCouponData = useRef({});
   const getCouponInfo = async () => {
-    const last_share_time = userShareData.current.last_share_time;
-
-    if (last_share_time) {
-      console.log(' shareCoupon last_share_time', last_share_time);
-      // // 最后分享时间不在当天清空拉新状态
-      const addDate = new Date(Number(last_share_time));
-      const addYear = addDate.getFullYear();
-      const addMonth = addDate.getMonth() + 1;
-      const addDay = addDate.getDate();
-      const nowDate = new Date();
-      const year = nowDate.getFullYear();
-      const month = nowDate.getMonth() + 1;
-      const day = nowDate.getDate();
-      if (addYear != year || addMonth != month || addDay != day) {
-        console.log(' shareCoupon last_share_time clear', last_share_time);
-
-        try {
-          const res = await updateShareInfo(userData.user_id, {
-            master_user_id: userData.user_id,
-            share_count: 0,
-          });
-          console.log('parizeOne 不在当天 updateShareInfo', res.data);
-          setUserShareData(res.data);
-        }catch(e){
-          console.log('parizeOne 不在当天 updateShareInfo error', e);
-        }
-      }
-    }
-
     window.babel.babelAdvertInfoNew({ body: shareAdID }).then(
       async (res) => {
         if (res.code === '0') {
@@ -59,15 +30,20 @@ const PrizeOne = ({ isStartAnimation }) => {
           console.log('shareCoupon userShareData', userShareData.current);
 
           // 首次点击的主态切主态id为当前主态id，或分享次数大于0
+          console.log('111111', userShareData.current.share_active_coupon);
+          console.log('222222', getUserType().userType === 'guest');
+          console.log('333333',  userData.first_click);
+          console.log('444444', userData.is_first_login);
+          console.log('455555', userData.first_click === getUserType().master_user_id);
           if (
-            userShareData.current.share_count > 0 ||
+            userShareData.current.share_active_coupon.length > 0 ||
             (getUserType().userType === 'guest' &&
               userData.first_click &&
               userData.is_first_login === 'true' &&
               userData.first_click === getUserType().master_user_id)
           ) {
             if (!shareCoupon?.extension) {
-              setHasGot(true);
+              setHasGot(false);
               return;
             }
 
@@ -75,19 +51,34 @@ const PrizeOne = ({ isStartAnimation }) => {
             const couponStatus = getCouponStatus(shareCoupon.extension.cpnResultCode);
             console.log('shareCoupon couponStatus', couponStatus);
             if (couponStatus == 'hasGot') {
+              // 已领取
               setHasGot(true);
-              setHasGotToday(true);
+              setShareZhuTan(false)
+              setShareKeTan(false)
+              setAlready(true)
+              console.log('分享券1');
             } else if (couponStatus == 'noMore') {
+              // 已领完
               setHasGot(true);
+              setShareZhuTan(false)
+              setShareKeTan(false)
+              console.log('分享券2');
             } else {
-              setHasGot(false);
+              // 其他
+              setHasGot(true);
+              userShareData.current.share_active_coupon.length > 0 && setShareZhuTan(true)
+              userShareData.current.share_active_coupon.length > 0 && setShareKeTan(true)
+              console.log('分享券3');
             }
           } else {
-            setHasGot(true);
+            setHasGot(false);
+            setShareZhuTan(false)
+            setShareKeTan(false)
+            console.log('分享券4');
           }
         }
       },
-      () => {},
+      () => { },
     );
   };
   useEffect(() => {
@@ -97,7 +88,7 @@ const PrizeOne = ({ isStartAnimation }) => {
   const handleShareBtnClick = useCallback(() => {
     reportWithoutJump('qufenxiang');
     const alertUrl =
-      'https://pro.m.jd.com/mall/active/puMw46gRgkDKJdKNTtdGvnFAXUx/index.html?babelChannel=ttt3';
+      'https://pro.m.jd.com/mall/active/puMw46gRgkDKJdKNTtdGvnFAXUx/index.htmlvconsole=1?babelChannel=ttt3';
     // const alertUrl = 'https://pro.m.jd.com/mall/active/3XC476rzxWSkDaHdR4ru1YxeXgZE/index.html';
     const shareUrl = `${alertUrl}&user_id=${userData.user_id}`;
     console.log('点击分享按钮 shareUrl', shareUrl);
@@ -109,13 +100,6 @@ const PrizeOne = ({ isStartAnimation }) => {
       img: payloadProps.shareImg,
       channel: 'Wxfriends,Wxmoments,QRCode,CopyURL',
       qrparam: {
-        //   "top_pic": "", //频道名图片的地址
-        //   "mid_pic": "", //中间大图的地址
-        //   "slogan": "", //频道/活动口号
-        //   "qr_title": "", //标题文字
-        //   "qr_content": "", //运营语文字
-        //   "qr_type": "", //模式
-        //   "mid_pic_x": "", //京海报模式背景图片的地址
         qr_direct:
           'http://m.360buyimg.com/babel/jfs/t1/239780/6/7362/157194/6650dd15F9efcfef6/c1a96e0cc6e039a8.png', //自定义二维码图片
       },
@@ -171,7 +155,7 @@ const PrizeOne = ({ isStartAnimation }) => {
             showToast('预约失败');
           }
         },
-        () => {},
+        () => { },
       );
   });
 
@@ -184,7 +168,7 @@ const PrizeOne = ({ isStartAnimation }) => {
       setTimeout(() => {
         jumpOther(`https://so.m.jd.com/list/couponSearch.action?couponbatch=${shareCouponData.current.batchId}`, 'youhuijuan')
       }, 2000);
-      
+
     } else if (res === 'soldout') {
       showToast('优惠券已领完');
     } else {
@@ -199,14 +183,14 @@ const PrizeOne = ({ isStartAnimation }) => {
         position: 'absolute',
         left: getRpx(57),
         top: getRpx(120),
-        transform: 'rotateY(180deg)',
+        transform: `translateX(-200px)`,
       }}
     >
       <div
         style={{
           position: 'relative',
-          width: getRpx(315),
-          height: getRpx(510),
+          width: getRpx(492),
+          height: getRpx(276),
         }}
       >
         <img
@@ -214,7 +198,7 @@ const PrizeOne = ({ isStartAnimation }) => {
             position: 'absolute',
             width: '100%',
           }}
-          src={hasGotToday ? payloadProps.shareHasGotToday : payloadProps.sharPriceImg}
+          src={payloadProps.shareHasGotToday}
           alt="sharPriceImg"
         />
         <div
@@ -222,11 +206,11 @@ const PrizeOne = ({ isStartAnimation }) => {
             position: 'absolute',
             width: getRpx(229),
             height: getRpx(73.5),
-            left: getRpx(40),
-            top: getRpx(360),
+            left: getRpx(219),
+            top: getRpx(234),
           }}
         >
-          {hasGot ? (
+          { !hasGot  ? (
             <img
               style={{
                 width: '100%',
@@ -235,7 +219,15 @@ const PrizeOne = ({ isStartAnimation }) => {
               alt="去分享"
               onClick={handleShareBtnClick}
             />
-          ) : (
+          ) : already ?  (
+            <img
+              style={{
+                width: '100%',
+              }}
+              src='http://m.360buyimg.com/babel/jfs/t1/243859/9/15762/12454/66987b98F75117a16/a8d91c192aa79c5d.png'
+              alt="已领取"
+            />
+          ) :  (
             <img
               style={{
                 width: '100%',
@@ -244,8 +236,32 @@ const PrizeOne = ({ isStartAnimation }) => {
               alt="去领取"
               onClick={handleGetCouponBtnClick}
             />
-          )}
+          )
+        
+        }
         </div>
+
+       {
+        hasGot && already && (
+          <div
+            style={{
+              width: getRpx(180),
+              height: getRpx(33),
+              position: 'absolute',
+              top: getRpx(228),
+              left: getRpx(285),
+            }}
+          >
+            <img
+              style={{
+                width: '100%',
+              }}
+              src="https://img10.360buyimg.com/zx/jfs/t1/47707/30/24726/3065/66987c27Ffefef2de/e227ff1e114cc878.png"
+              alt="气泡"
+            />
+          </div>
+        )
+       }
       </div>
     </div>
   );

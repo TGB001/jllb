@@ -5,7 +5,7 @@ import { ToastContext, UserContext } from '../../context/context';
 import styles from '../Home.module.css';
 import { comments } from '@/server/dataManager';
 
-const PrizeTwo = ({ isStartAnimation }) => {
+const PrizeTwo = ({ isStartAnimation, setShaiDan }) => {
   const [hasGot, setHasGot] = useState(false);
   const [hasChance, setHasChance] = useState(false);
   const payloadProps = useContext(MockDataContext);
@@ -144,13 +144,19 @@ const PrizeTwo = ({ isStartAnimation }) => {
             // 最终都会更具优惠券状态判断是否领取成功，在更新显示状态
             const couponStatus = getCouponStatus(shareCoupon.extension.cpnResultCode);
             if (couponStatus == 'hasGot') {
+              console.log('晒单券1');
               setHasGot(true);
               setHasGotToday(true);
+              setShaiDan(false)
             } else if (couponStatus == 'noMore') {
+              console.log('晒单券2');
               setHasGot(true);
+              setShaiDan(false)
             } else {
+              console.log('晒单券3');
               setHasGot(false);
               getShaiDanInfo();
+              hasChance && setShaiDan(true)
             }
           }
         }
@@ -209,16 +215,16 @@ const PrizeTwo = ({ isStartAnimation }) => {
       className={isStartAnimation && styles.animeFlip2}
       style={{
         position: 'absolute',
-        left: getRpx(410),
+        left: getRpx(570),
         top: getRpx(120),
-        transform: 'rotateY(180deg)',
+        transform: `translateX(200px)`,
       }}
     >
       <div
         style={{
           position: 'relative',
-          width: getRpx(315),
-          height: getRpx(510),
+          width: getRpx(492),
+          height: getRpx(276),
         }}
       >
         <img
@@ -235,8 +241,8 @@ const PrizeTwo = ({ isStartAnimation }) => {
             position: 'absolute',
             width: getRpx(229),
             height: getRpx(73.5),
-            left: getRpx(40),
-            top: getRpx(360),
+            left: getRpx(219),
+            top: getRpx(234),
           }}
         >
           <img
@@ -251,7 +257,7 @@ const PrizeTwo = ({ isStartAnimation }) => {
             }}
             src={
               hasGot
-                ? payloadProps.getImg //去使用
+                ? payloadProps.shipImg1 //已领取
                 : hasChance
                 ? payloadProps.clickPutImg1 // 点击领取
                 : payloadProps.shipImg1 //暂无资格
@@ -259,6 +265,28 @@ const PrizeTwo = ({ isStartAnimation }) => {
             alt="暂无资格"
           />
         </div>
+        
+        {
+          hasChance && !hasGot && (
+          <div
+            style={{
+              width: getRpx(180),
+              height: getRpx(33),
+              position: 'absolute',
+              top: getRpx(228),
+              left: getRpx(285),
+            }}
+          >
+            <img
+              style={{
+                width: '100%',
+              }}
+              src="https://img10.360buyimg.com/zx/jfs/t1/47707/30/24726/3065/66987c27Ffefef2de/e227ff1e114cc878.png"
+              alt="气泡"
+            />
+          </div>
+        )
+       }
       </div>
     </div>
   );
